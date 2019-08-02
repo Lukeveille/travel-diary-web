@@ -23,8 +23,13 @@ const Index = () => {
         sendUserData(email, password, login)
         .then(res => {
           login === 'login'? setToken(res.token) :
-          setLogin('login');
-          sendUserData(email, password, login);
+          console.log(res)
+          sendUserData(email, password, 'login')
+          .then(res => {
+            console.log(res)
+            setToken(res.token)
+          })
+          .catch(err => console.error(err));
         })
         .catch(err => console.error(err));
       }}>
@@ -38,8 +43,6 @@ const Index = () => {
         </button>
         <a href='' onClick={e => {
           e.preventDefault();
-          setEmail('');
-          setPassword('');
           setLogin(login === 'login'? 'signup' : 'login');
         }}>{login === 'login'? "Create Account" : "Login"}</a>
       </form>
