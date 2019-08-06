@@ -2,11 +2,6 @@ body {
   text-align: center;
 }
 
-#password + .glyphicon {
-  cursor: pointer;
-  pointer-events: all;
-}
-
 .form-control-feedback {
   position: absolute;
   top: 0;
