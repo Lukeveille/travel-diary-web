@@ -1,6 +1,14 @@
 body {
   text-align: center;
 }
+header {
+  display: flex;
+  justify-content: space-between;
+}
+header p,
+header a {
+  margin: 2em;
+}
 
 .form-control-feedback {
   position: absolute;
@@ -23,13 +31,4 @@ body {
   line-height: 1.42857143;
   border: 1px solid #ccc;
   border-radius: 4px;
-}
-
-.relative {
-  position: relative;
-}
-
-.login-signup-form {
-  max-width: 300px;
-  margin: auto;
 }

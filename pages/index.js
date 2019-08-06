@@ -3,7 +3,7 @@ import Trips from './Trips';
 import { handleAuthSSR } from '../utils/auth';
 
 const Index = props => {
-  return props.error? <LoginSignup /> : <Trips />;
+  return props.error? <LoginSignup /> : <Trips data={props}/>;
 }
 
 Index.getInitialProps = async function (ctx) {

@@ -1,6 +1,6 @@
 import Layout from '../components/main';
 import fetch from 'isomorphic-unfetch';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Cookies } from 'react-cookie';
 
 const serverUrl = 'http://localhost:3443/api/v1/';
@@ -25,13 +25,11 @@ const LoginSignup = () => {
           if (res.error) {
             setError(res.error.message? 'Auth failed' : res.error)
           } else if (login === 'login') {
-            // cookies.set('token', null);
             cookies.set('token', res.token)
             window.location.reload()
           } else {
             sendUserData(email, password, 'login')
             .then(res => {
-              // cookies.set('token', null);
               cookies.set('token', res.token)
               window.location.reload()
             })
@@ -72,16 +70,23 @@ const LoginSignup = () => {
       <p className="error-msg">{error}</p>
 
       <style jsx>{`
-      h1 {
-        margin-top: 5em;
-      }
-      .glyphicon {
-        cursor: pointer;
-        pointer-events: all;
-      }
-      .error-msg {
-        color: #D00;
-      }
+        h1 {
+          margin-top: 5em;
+        }
+        .glyphicon {
+          cursor: pointer;
+          pointer-events: all;
+        }
+        .error-msg {
+          color: #D00;
+        }
+        .relative {
+          position: relative;
+        }
+        .login-signup-form {
+          max-width: 300px;
+          margin: auto;
+        }
       `}</style>
     </Layout>
   );
