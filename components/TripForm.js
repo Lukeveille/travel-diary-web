@@ -1,9 +1,10 @@
 const TripForm = props => {
+
   const convertUTC = string => {
     string = string.split('-');
     return Date.UTC(string[0], string[1]-1, string[2]);
   }
-  
+
   return (
     <div className="modal-form">
       <h2>Create a New Trip</h2>
@@ -36,7 +37,6 @@ const TripForm = props => {
         <button className="form-control" onClick={() => {
           props.newTrip.start = convertUTC(props.newTrip.start);
           props.newTrip.end = convertUTC(props.newTrip.end);
-          alert(props.newTrip.start)
         }}>
           Create Trip
         </button>
