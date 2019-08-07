@@ -1,47 +1,36 @@
 const TripForm = props => {
-
-  const convertUTC = string => {
-    string = string.split('-');
-    return Date.UTC(string[0], string[1]-1, string[2]);
-  }
-
   return (
-    <div className="modal-form">
+    <form className="modal-form" onSubmit={props.submitNewTrip}>
       <h2>Create a New Trip</h2>
-      <form>
-        <input
-          type="text"
-          className="form-control"
-          value={props.newTrip.title}
-          onChange={event => {
-            props.setNewTrip({...props.newTrip, title: event.target.value})
-          }}
-          placeholder="Name"
-        />
-        <input
-          type="date"
-          className="form-control"
-          value={props.newTrip.start}
-          onChange={event => {
-            props.setNewTrip({...props.newTrip, start: event.target.value})
-          }}
-        />
-        <input
-          type="date"
-          className="form-control"
-          value={props.newTrip.end}
-          onChange={event => {
-            props.setNewTrip({...props.newTrip, end: event.target.value})
-          }}
-        />
-        <button className="form-control" onClick={() => {
-          props.newTrip.start = convertUTC(props.newTrip.start);
-          props.newTrip.end = convertUTC(props.newTrip.end);
-        }}>
-          Create Trip
-        </button>
-      </form>  
-    </div>
+      <input
+        type="text"
+        className="form-control"
+        value={props.newTrip.title}
+        onChange={event => {
+          props.setNewTrip({...props.newTrip, title: event.target.value})
+        }}
+        placeholder="Name"
+      />
+      <input
+        type="date"
+        className="form-control"
+        value={props.newTrip.startTime}
+        onChange={event => {
+          props.setNewTrip({...props.newTrip, startTime: event.target.value})
+        }}
+      />
+      <input
+        type="date"
+        className="form-control"
+        value={props.newTrip.endTime}
+        onChange={event => {
+          props.setNewTrip({...props.newTrip, endTime: event.target.value})
+        }}
+      />
+      <button type="submit" className="form-control">
+        Create Trip
+      </button>
+    </form>  
   )
 }
 

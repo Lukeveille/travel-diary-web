@@ -26,12 +26,12 @@ const LoginSignup = () => {
             setError(res.error.message? 'Auth failed' : res.error)
           } else if (login === 'login') {
             cookies.set('token', res.token)
-            window.location.reload()
+            window.location.reload();
           } else {
             sendUserData(email, password, 'login')
             .then(res => {
               cookies.set('token', res.token)
-              window.location.reload()
+              window.location.reload();
             })
             .catch(err => console.error(err));
           };
