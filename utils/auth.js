@@ -8,7 +8,7 @@ const serverUrl = 'http://localhost:3443/api/v1/';
 export async function handleAuthSSR(ctx) {
   let token = null;
   
-  if (ctx.req) {
+  if (ctx.req.headers.cookie) {
     token = ctx.req.headers.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   } else {
     token = cookies.get('token');

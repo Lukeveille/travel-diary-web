@@ -1,4 +1,4 @@
-import Layout from '../components/main';
+import Layout from '../components/Layout';
 import fetch from 'isomorphic-unfetch';
 import { useState } from 'react';
 import { Cookies } from 'react-cookie';

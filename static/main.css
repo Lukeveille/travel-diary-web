@@ -1,5 +1,6 @@
 body {
   text-align: center;
+  color: #444;
 }
 header {
   display: flex;
@@ -8,6 +9,17 @@ header {
 header p,
 header a {
   margin: 2em;
+}
+a, a:hover, a:active, a:focus {
+  color: #444;
+}
+button {
+  transition: .25s;
+}
+button:hover {
+  background-color: #ddd;
+  border-color: #444;
+  color: #000;
 }
 
 .form-control-feedback {
@@ -31,4 +43,52 @@ header a {
   line-height: 1.42857143;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+/* Modals */
+.modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+}
+.modal-box {
+  background-color: #fff;
+  border: 1px solid #666;
+  display: inline-block;
+  margin-top: 15vh;
+  border-radius: 15px;
+}
+.modal-content {
+  margin: 2.5em;
+}
+.modal-box h3,
+.modal-box h4 {
+  margin: .2em;
+}
+.modal-top-row {
+  display: relative;
+  text-align: right;
+  padding: .33em 2.4em;
+}
+.x-close-button {
+  border-radius: 100%;
+  padding: .3em .60em .25em .65em;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  color: #ddd;
+  font-weight: 800;
+  transition: all 0.2s;
+}
+.x-close-button:hover {
+  background-color: #ddd;
+  color: #444;
+  border-color: #444;
 }
