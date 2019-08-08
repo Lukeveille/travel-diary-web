@@ -6,7 +6,7 @@ const TripForm = props => {
         autoFocus
         ref={props.inputRef}
         type="text"
-        className="input-form-control form-control"
+        className="form-control"
         value={props.newTrip.title}
         onChange={event => {
           props.setNewTrip({...props.newTrip, title: event.target.value})

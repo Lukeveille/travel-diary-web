@@ -3,40 +3,50 @@ import Header from '../components/Header';
 import Modal from '../components/Modal';
 import TripForm from '../components/TripForm';
 import fetch from 'isomorphic-unfetch';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { handleAuthSSR } from '../utils/auth';
 
 const Trips = props => {
-  const inputRef = useRef();
-  const [trips, setTrips] = useState(props.trips);
-  const [tripModal, setTripModal] = useState('none');
-  const [newTrip, setNewTrip] = useState({title: '', startTime: '', endTime: ''});
-  const convertUTC = string => {
-    // !!!
-    if (string) return Date.UTC(string[0], string[1]-1, string[2]);
-  }
-  const submitNewTrip = () => {
-    newTrip.startTime = convertUTC(newTrip.startTime) || Date.now();
-    newTrip.endTime = convertUTC(newTrip.endTime) || Date.now() + 2592000000;
+  const inputRef = useRef(),
+  [trips, setTrips] = useState(props.trips),
+  [tripModal, setTripModal] = useState('none'),
+  [newTrip, setNewTrip] = useState({title: '', startTime: '', endTime: ''}),
+  convertUTC = string => {
+    if (string) {
+      string = string.split('-');
+      console.log(string)
+      return Date.UTC(string[0], string[1]-1, parseInt(string[2])+1);
+    };
+  },
+  dateString = utc => {
+    const utcObj = new Date(utc)
+    utc = utcObj.toString().split(' ');
+    return `${utc[1]} ${utc[2]} ${utc[3]}`;
+  },
+  submitNewTrip = () => {
+    newTrip.startTime = convertUTC(newTrip.startTime);
+    newTrip.endTime = convertUTC(newTrip.endTime);
     newTrip.title = newTrip.title? newTrip.title : null;
     createTrip(newTrip).then(() => window.location.reload());
-  }
+  };
 
   return <Layout>
     <Header user={props.user} />
     <h1>Trips</h1>
     <div className="trip-list">
-      {trips.map(trip => (
-        <div
+      {trips.map(trip => {
+        return <div
           className="trip-box"
           key={trip.dataKey}
           onClick={() => {
-            alert(trip.created)
+            alert(dateString(trip.created))
           }}
         >
           <p>{trip.title}</p>
+          <p>{dateString(trip.startTime)}</p>
+          <p>{dateString(trip.endTime)}</p>
         </div>
-      ))}
+      })}
       <div
         className="trip-box new-trip"
         onClick={() => {
@@ -88,6 +98,7 @@ const Trips = props => {
         createTrip={createTrip}
         submitNewTrip={submitNewTrip}
         inputRef={inputRef}
+        dateString={dateString}
       />
     } />
   </Layout>

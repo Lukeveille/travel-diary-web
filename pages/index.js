@@ -5,15 +5,14 @@ import Router from 'next/router';
 import { handleAuthSSR } from '../utils/auth';
 
 const Index = props => {
-  return props.error? <LoginSignup /> : <Trips user={props.user} trips={props.trips} />;
+  return props.user? <Trips user={props.user} trips={props.trips} /> : <LoginSignup />;
 };
 
 Index.getInitialProps = async function (ctx) {
   const [headers, server] = handleAuthSSR(ctx);
   try {
     const res = await fetch(server + 'trips', headers);
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (err) {
     console.log(err)
     if (ctx.res) {

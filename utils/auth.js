@@ -10,7 +10,7 @@ export const handleAuthSSR = (ctx) => {
     token = ctx.req.headers.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   } else {
     token = cookies.get('token');
-  }
+  };
 
   return [{ headers: { Authorization: 'Bearer ' + token } }, server];
 };
