@@ -3,10 +3,11 @@ import Header from '../components/Header';
 import Modal from '../components/Modal';
 import TripForm from '../components/TripForm';
 import fetch from 'isomorphic-unfetch';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { handleAuthSSR } from '../utils/auth';
 
 const Trips = props => {
+  const inputRef = useRef();
   const [trips, setTrips] = useState(props.trips);
   const [tripModal, setTripModal] = useState('none');
   const [newTrip, setNewTrip] = useState({title: '', startTime: '', endTime: ''});
@@ -19,7 +20,6 @@ const Trips = props => {
     newTrip.endTime = convertUTC(newTrip.endTime) || Date.now() + 2592000000;
     newTrip.title = newTrip.title? newTrip.title : null;
     createTrip(newTrip).then(() => window.location.reload());
-    
   }
 
   return <Layout>
@@ -40,7 +40,7 @@ const Trips = props => {
       <div
         className="trip-box new-trip"
         onClick={() => {
-          setTripModal('block')
+          setTripModal('block');
         }}
       >
         <i className="glyphicon glyphicon-plus"></i>
@@ -86,9 +86,8 @@ const Trips = props => {
         newTrip={newTrip}
         setNewTrip={setNewTrip}
         createTrip={createTrip}
-        trips={trips}
-        setTrips={setTrips}
         submitNewTrip={submitNewTrip}
+        inputRef={inputRef}
       />
     } />
   </Layout>

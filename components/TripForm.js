@@ -3,8 +3,10 @@ const TripForm = props => {
     <form className="modal-form" onSubmit={props.submitNewTrip}>
       <h2>Create a New Trip</h2>
       <input
+        autoFocus
+        ref={props.inputRef}
         type="text"
-        className="form-control"
+        className="input-form-control form-control"
         value={props.newTrip.title}
         onChange={event => {
           props.setNewTrip({...props.newTrip, title: event.target.value})
