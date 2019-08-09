@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
@@ -35,17 +36,16 @@ const Trips = props => {
     <h1>Trips</h1>
     <div className="trip-list">
       {trips.map(trip => {
-        return <div
-          className="trip-box"
-          key={trip.dataKey}
-          onClick={() => {
-            alert(dateString(trip.created))
-          }}
-        >
-          <p>{trip.title}</p>
-          <p>{dateString(trip.startTime)}</p>
-          <p>{dateString(trip.endTime)}</p>
-        </div>
+        return <Link href="/[trip]" as={`${trip.title}`}>
+          <div
+            className="trip-box"
+            key={trip.dataKey}
+          >
+            <p>{trip.title}</p>
+            <p>{dateString(trip.startTime)}</p>
+            <p>{dateString(trip.endTime)}</p>
+          </div>
+        </Link>
       })}
       <div
         className="trip-box new-trip"

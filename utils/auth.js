@@ -6,7 +6,7 @@ const cookies = new Cookies();
 export const handleAuthSSR = (ctx) => {
   let token = null;
   
-  if (ctx && ctx.req.headers.cookie) {
+  if (ctx.req && ctx.req.headers.cookie) {
     token = ctx.req.headers.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   } else {
     token = cookies.get('token');
