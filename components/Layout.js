@@ -7,7 +7,7 @@ const Main = props => {
         <link rel='stylesheet' href='/static/glyphicons/css/bootstrap.min.css' />
         <link rel='stylesheet' href='/static/main.css' />
       </Head>
-      {props.children}
+      {props.error? <h1>{props.error}</h1> : props.children}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import TripForm from '../components/TripForm';
 import fetch from 'isomorphic-unfetch';
 import { useState, useRef } from 'react';
 import { handleAuthSSR } from '../utils/auth';
+import dateString from '../utils/dateString';
 
 const Trips = props => {
   const inputRef = useRef(),
@@ -19,11 +20,6 @@ const Trips = props => {
       return Date.UTC(string[0], string[1]-1, parseInt(string[2])+1);
     };
   },
-  dateString = utc => {
-    const utcObj = new Date(utc)
-    utc = utcObj.toString().split(' ');
-    return `${utc[1]} ${utc[2]} ${utc[3]}`;
-  },
   submitNewTrip = () => {
     newTrip.startTime = convertUTC(newTrip.startTime);
     newTrip.endTime = convertUTC(newTrip.endTime);
@@ -36,15 +32,14 @@ const Trips = props => {
     <h1>Trips</h1>
     <div className="trip-list">
       {trips.map(trip => {
-        return <Link href="/[trip]" as={`${trip.title}`}>
-          <div
+        return <Link href="/[trip]" as={`${trip.dataKey}`} key={trip.dataKey}>
+          <a
             className="trip-box"
-            key={trip.dataKey}
           >
             <p>{trip.title}</p>
             <p>{dateString(trip.startTime)}</p>
             <p>{dateString(trip.endTime)}</p>
-          </div>
+          </a>
         </Link>
       })}
       <div
@@ -73,6 +68,9 @@ const Trips = props => {
       }
       .trip-box:hover .glyphicon {
         color: #ddd;
+      }
+      a {
+        text-decoration: none;
       }
       .trip-box {
         display: inline-block;
