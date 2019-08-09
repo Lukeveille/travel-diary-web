@@ -8,7 +8,7 @@ header {
 }
 header p,
 header a {
-  margin: 2em;
+  margin: 1em 2em;
 }
 a, a:hover, a:active, a:focus {
   color: #444;
@@ -20,6 +20,9 @@ button:hover {
   background-color: #ddd;
   border-color: #444;
   color: #000;
+}
+h1, h3 {
+  position: relative;
 }
 
 .form-control-feedback {
@@ -43,6 +46,24 @@ button:hover {
   line-height: 1.42857143;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+h1 .glyphicon-pencil {
+  margin: .75em .35em;
+}
+h3 .glyphicon-pencil {
+  margin: .25em .35em;
+}
+.glyphicon {
+  transition: .25s;
+}
+.glyphicon-pencil {
+  font-size: 16px;
+  cursor: pointer;
+  position: absolute;
+  color: #fafafa;
+}
+.glyphicon-pencil:hover {
+  color: #ddd
 }
 
 /* Modals */

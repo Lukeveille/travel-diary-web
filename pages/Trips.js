@@ -7,19 +7,13 @@ import fetch from 'isomorphic-unfetch';
 import { useState, useRef } from 'react';
 import { handleAuthSSR } from '../utils/auth';
 import dateString from '../utils/dateString';
+import convertUTC from '../utils/convertUTC';
 
 const Trips = props => {
   const inputRef = useRef(),
   [trips, setTrips] = useState(props.trips),
   [tripModal, setTripModal] = useState('none'),
   [newTrip, setNewTrip] = useState({title: '', startTime: '', endTime: ''}),
-  convertUTC = string => {
-    if (string) {
-      string = string.split('-');
-      console.log(string)
-      return Date.UTC(string[0], string[1]-1, parseInt(string[2])+1);
-    };
-  },
   submitNewTrip = () => {
     newTrip.startTime = convertUTC(newTrip.startTime);
     newTrip.endTime = convertUTC(newTrip.endTime);
@@ -37,8 +31,8 @@ const Trips = props => {
             className="trip-box"
           >
             <p>{trip.title}</p>
-            <p>{dateString(trip.startTime)}</p>
-            <p>{dateString(trip.endTime)}</p>
+            <p>{dateString(trip.startTime)[0]}</p>
+            <p>{dateString(trip.endTime)[0]}</p>
           </a>
         </Link>
       })}
@@ -58,12 +52,10 @@ const Trips = props => {
         border-radius: 15px;
         display: inline-block;
         cursor: pointer;
-        transition: .25s;
         margin: 1em;
       }
       .glyphicon {
         font-size: 5em;
-        transition: .25s;
         color: #444;
       }
       .trip-box:hover .glyphicon {
