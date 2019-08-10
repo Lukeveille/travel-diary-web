@@ -26,11 +26,12 @@ const Trips = props => {
     <h1>Trips</h1>
     <div className="trip-list">
       {trips.map(trip => {
+        const style = {fontStyle: trip.title? 'normal' : 'italic'}
         return <Link href="/[trip]" as={`${trip.dataKey}`} key={trip.dataKey}>
           <a
             className="trip-box"
           >
-            <p>{trip.title}</p>
+            <p style={style}>{trip.title? trip.title : 'Untitled'}</p>
             <p>{dateString(trip.startTime)[0]}</p>
             <p>{dateString(trip.endTime)[0]}</p>
           </a>
