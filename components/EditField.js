@@ -1,38 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dateString from '../utils/dateString';
 import convertUTC from '../utils/convertUTC';
 
 export default props => {
-  const [edit, setEdit] = useState(false)
-  const blank = props.state[props.attribute] === '' || props.state[props.attribute] === null;
-  const style = {color: blank? "#ddd" : "444", fontStyle: blank? 'italic' : 'normal'}
-  const type = blank || typeof props.state[props.attribute] === 'string'? 'text' : 'date';
+  const [edit, setEdit] = useState(false),
+  blank = props.state[props.attribute] === '',
+  type = blank || typeof props.state[props.attribute] === 'string'? 'text' : 'date';
+
+  useEffect(() => {
+    setEdit(false)
+  }, [props.on])
 
   return (
     <span>
       <input
         autoFocus
         type={type} 
-        placeholder="Untitled"
         onChange={event => {
           props.editState(
             {...props.state,
-              [props.attribute]: type == 'text'? blank? null : event.target.value : convertUTC(event.target.value)
+              [props.attribute]: type == 'text'? event.target.value : convertUTC(event.target.value)
             }
           )
         }}
-        value={blank? ' ' : type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1]}
-        style={{display: edit? 'inline' : 'none'}}
+        value={type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1]}
+        style={{display: props.on && edit? 'inline' : 'none'}}
       />
-      <span style={{...style, display: edit? 'none' : 'inline'}}>
+      <span style={{color: blank? "#ddd" : "#444", fontStyle: blank? 'italic' : 'normal', display: props.on && edit? 'none' : 'inline'}}>
         {blank? 'Untitled' : type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
       </span>
-      <i
+      {props.on? <i
       className={"glyphicon glyphicon-pencil"}
       onClick={() => {
         setEdit(!edit);
       }}
-      ></i>
+      ></i> : ''}
     </span>
   )
 };

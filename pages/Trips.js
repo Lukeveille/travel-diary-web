@@ -95,14 +95,13 @@ const Trips = props => {
   </Layout>
 };
 
-const createTrip = async function (newTrip) {
+const createTrip = async function (trip) {
   const [headers, server] = handleAuthSSR();
-  const req = {...headers, body: JSON.stringify(newTrip), mode: 'cors', method: 'POST'};
+  const req = {...headers, body: JSON.stringify(trip), mode: 'cors', method: 'POST'};
   req.headers['Content-Type'] = 'application/json';
   
   const res = await fetch(server + 'new-trip', req);
-  const data = await res.json();
-  return data;
+  return await res.json();
 };
 
 export default Trips;
