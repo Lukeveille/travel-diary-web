@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Router from 'next/router';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
@@ -18,7 +19,7 @@ const Trips = props => {
     newTrip.startTime = convertUTC(newTrip.startTime);
     newTrip.endTime = convertUTC(newTrip.endTime);
     newTrip.title = newTrip.title? newTrip.title : null;
-    createTrip(newTrip).then(() => window.location.reload());
+    createTrip(newTrip).then(res => Router.push(`/${res.message.split(' ')[0]}`));
   };
 
   return <Layout>
@@ -27,7 +28,7 @@ const Trips = props => {
     <div className="trip-list">
       {trips.map(trip => {
         const style = {fontStyle: trip.title? 'normal' : 'italic'}
-        return <Link href="/[trip]" as={`${trip.dataKey}`} key={trip.dataKey}>
+        return <Link href="/[Trip]" as={`${trip.dataKey}`} key={trip.dataKey}>
           <a
             className="trip-box"
           >
@@ -54,6 +55,10 @@ const Trips = props => {
         display: inline-block;
         cursor: pointer;
         margin: 1em;
+        transition: .25s;
+      }
+      .trip-box:hover {
+        border-color: #444
       }
       .glyphicon {
         font-size: 5em;
