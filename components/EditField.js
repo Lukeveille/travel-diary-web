@@ -9,8 +9,6 @@ export default props => {
   blank = props.state[props.attribute] === '',
   type = blank || typeof props.state[props.attribute] === 'string'? 'text' : 'date';
 
-  // let temp = undefined;
-
   useEffect(() => {
     setEdit(false)
   }, [props.on])
@@ -23,11 +21,10 @@ export default props => {
         onKeyDown={ event => {
           if (event.keyCode === 13) {
             setEdit(!edit);
+            setHover(false);
           } else if (event.keyCode === 27) {
             setEdit(!edit);
-            // console.log(props.state[props.attribute])
-            // console.log(temp)
-            // // console.log({...props.state, [props.attribute]: temp })
+            setHover(false);
             props.editState({...props.state, [props.attribute]: temp })
           }
         }}

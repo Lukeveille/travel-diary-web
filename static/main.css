@@ -72,6 +72,7 @@ h3 .glyphicon-pencil {
   background: rgba(0, 0, 0, 0.6);
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 .modal-box {
   background-color: #fff;

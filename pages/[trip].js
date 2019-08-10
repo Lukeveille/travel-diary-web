@@ -14,7 +14,9 @@ const Trip = props => {
   [deleteModal, setDeleteModal] = useState('none'),
   [temp, setTemp] = useState(props.tripData),
   deleteMessage = <div>
-    <h4>Are you sure you want to delete {currentTrip.title}?</h4>
+    <h4>Are you sure you want to delete
+      <span style={{fontStyle: currentTrip.title? 'normal' : 'italic'}}> "{currentTrip.title? currentTrip.title : 'Untitled'}"?</span>
+    </h4>
     <button className="form-control" onClick={() => {
       deleteTrip(currentTrip).then(() => {
         Router.push('/');
@@ -51,7 +53,7 @@ const Trip = props => {
       {editing? <a style={{cursor: 'pointer'}} onClick={() => {
         setDeleteModal(true)
       }}>Delete Trip</a> : ''}
-      <Modal show={deleteModal} setShow={setDeleteModal} children={
+      <Modal closer={true} show={deleteModal} setShow={setDeleteModal} children={
         deleteMessage
       }/>
     </Layout>

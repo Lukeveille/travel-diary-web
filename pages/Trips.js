@@ -62,10 +62,10 @@ const Trips = props => {
       }
       .glyphicon {
         font-size: 5em;
-        color: #444;
+        color: #ddd;
       }
       .trip-box:hover .glyphicon {
-        color: #ddd;
+        color: #444;
       }
       a {
         text-decoration: none;
