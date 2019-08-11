@@ -19,7 +19,13 @@ const Trips = props => {
     newTrip.startTime = convertUTC(newTrip.startTime);
     newTrip.endTime = convertUTC(newTrip.endTime);
     newTrip.title = newTrip.title? newTrip.title : null;
-    createTrip(newTrip).then(res => Router.push(`/${res.message.split(' ')[0]}`));
+    createTrip(newTrip)
+    .then(res => Router.push(`/${res.message.split(' ')[0]}`))
+    .catch(() => {
+      createTrip(newTrip)
+      .then(res => Router.push(`/${res.message.split(' ')[0]}`))
+      .catch(err => alert(err))
+    });
   };
 
   return <Layout>

@@ -6,7 +6,7 @@ import { Cookies } from 'react-cookie';
 const serverUrl = 'http://localhost:3443/api/v1/';
 
 const LoginSignup = () => {
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState('login')
@@ -18,8 +18,8 @@ const LoginSignup = () => {
     <Layout>
       <h1>Welcome to Trip Diary!</h1>
       <h2>{login === 'login'? "Please Login" : "Create an Account"}</h2>
-      <form className='login-signup-form' onSubmit={e => {
-        e.preventDefault();
+      <form className='login-signup-form' onSubmit={event => {
+        event.preventDefault();
         sendUserData(email, password, login)
         .then(res => {
           if (res.error) {
@@ -60,8 +60,8 @@ const LoginSignup = () => {
           {login === 'login'? "Login" : "Sign Up"}
         </button>
         
-        <a href='' onClick={e => {
-          e.preventDefault();
+        <a href='' onClick={event => {
+          event.preventDefault();
           setLogin(login === 'login'? 'signup' : 'login');
           setShowPass('password');
           setError('')
@@ -76,9 +76,6 @@ const LoginSignup = () => {
         .glyphicon {
           cursor: pointer;
           pointer-events: all;
-        }
-        .error-msg {
-          color: #D00;
         }
         .relative {
           position: relative;

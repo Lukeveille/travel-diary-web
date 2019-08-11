@@ -38,19 +38,19 @@ const Trip = props => {
       <h3>
         {editing?
         <span>
-          <a style={{cursor: 'pointer'}} onClick={() => {
+          <a onClick={() => {
             setEditing(!editing);
             saveEdit(currentTrip.title? currentTrip : {...currentTrip, title: null});
             setTemp(currentTrip);
           }}>Save</a>&nbsp;-&nbsp;
-          <a style={{cursor: 'pointer'}} onClick={() => {
+          <a onClick={() => {
             setEditing(!editing);
             editTrip(temp);
           }}>Discard</a>
         </span> :
-        <a style={{cursor: 'pointer'}} onClick={() => { setEditing(!editing) }}>Edit</a>}
+        <a onClick={() => { setEditing(!editing) }}>Edit</a>}
       </h3>
-      {editing? <a style={{cursor: 'pointer'}} onClick={() => {
+      {editing? <a onClick={() => {
         setDeleteModal(true)
       }}>Delete Trip</a> : ''}
       <Modal closer={true} show={deleteModal} setShow={setDeleteModal} children={

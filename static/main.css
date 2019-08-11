@@ -11,6 +11,7 @@ header a {
   margin: 1em 2em;
 }
 a, a:hover, a:active, a:focus {
+  cursor: pointer;
   color: #444;
 }
 button {
@@ -25,6 +26,9 @@ h1, h3 {
   position: relative;
 }
 
+.error-msg {
+  color: #D00;
+}
 .form-control-feedback {
   position: absolute;
   top: 0;
@@ -95,7 +99,7 @@ h3 .glyphicon-pencil {
 }
 .x-close-button {
   border-radius: 100%;
-  padding: .3em .60em .25em .65em;
+  padding: .3em .60em .15em .65em;
   background-color: #fff;
   border: 1px solid #ddd;
   display: inline-block;
