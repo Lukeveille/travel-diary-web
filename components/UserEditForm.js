@@ -10,9 +10,6 @@ export default props => (
         props.setError({ msg: res.error });
       } else {
         props.setForm('');
-        props.setPassword('');
-        props.setNewPassword('');
-        props.setShowPass('password');
         props.setError({ msg: 'Password updated!', ok: true });
       }
     })
@@ -47,10 +44,6 @@ export default props => (
     <button className="form-control" type="button" onClick={event => {
       event.preventDefault();
       props.setForm('');
-      props.setForm('');
-      props.setPassword('');
-      props.setNewPassword('');
-      props.setShowPass('password');
     }}>Cancel</button>
   </form>
 )

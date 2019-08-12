@@ -18,6 +18,10 @@ const UserProfile = props => {
   }, [props.closed])
   useEffect(() =>{
     setError('');
+    setEmail('');
+    setPassword('');
+    setNewPassword('');
+    setShowPass('password')
     props.setCloseLock(false);
   }, [form])
 
