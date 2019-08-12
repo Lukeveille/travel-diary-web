@@ -1,4 +1,5 @@
 import Router from 'next/router';
+import serverCall from '../utils/serverCall';
 import { Cookies } from 'react-cookie';
 const cookies = new Cookies();
 
@@ -6,7 +7,8 @@ export default props => (
   <form onSubmit={event => {
     event.preventDefault();
     if (props.user === props.email) {
-      props.sendUser('DELETE', { email: props.user, password: props.password }).then(res => {
+      serverCall('DELETE', { email: props.email, password: props.password }, `delete/${props.email}`)
+      .then(res => {
         if (res.error) {
           props.setError({ msg: res.error });
         } else {
@@ -31,4 +33,4 @@ export default props => (
   }}>CANCEL</button>
   <button className="form-control" type="submit">Delete User</button>
 </form>
-)
+);

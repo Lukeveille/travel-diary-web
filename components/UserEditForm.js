@@ -1,7 +1,9 @@
+import serverCall from '../utils/serverCall';
+
 export default props => (
   <form onSubmit={event => {
     event.preventDefault();
-    props.sendUser('PATCH', {
+    serverCall('PATCH', {
       email: props.user,
       password: props.password,
       newPassword: props.newPassword
@@ -46,4 +48,4 @@ export default props => (
       props.setForm('');
     }}>Cancel</button>
   </form>
-)
+);

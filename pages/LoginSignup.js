@@ -1,11 +1,9 @@
 import Layout from '../components/Layout';
-import fetch from 'isomorphic-unfetch';
+import serverCall from '../utils/serverCall';
 import { useState } from 'react';
 import { Cookies } from 'react-cookie';
 
-const serverUrl = 'http://localhost:3443/api/v1/';
-
-const LoginSignup = () => {
+export default () => {
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +18,7 @@ const LoginSignup = () => {
       <h2>{login === 'login'? "Please Login" : "Create an Account"}</h2>
       <form className='login-signup-form' onSubmit={event => {
         event.preventDefault();
-        sendUserData(email, password, login)
+        serverCall('POST', { email, password }, login)
         .then(res => {
           if (res.error) {
             setError(res.error.message? 'Auth failed' : res.error)
@@ -28,7 +26,7 @@ const LoginSignup = () => {
             cookies.set('token', res.token)
             window.location.reload();
           } else {
-            sendUserData(email, password, 'login')
+            serverCall('POST', { email, password }, 'login')
             .then(res => {
               cookies.set('token', res.token)
               window.location.reload();
@@ -81,19 +79,3 @@ const LoginSignup = () => {
     </Layout>
   );
 };
-
-const sendUserData = async function (email, password, action) {
-  const res = await fetch(serverUrl + action, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email, password})
-  })
-  const data = await res.json();
-
-  return data;
-}
-
-export default LoginSignup;

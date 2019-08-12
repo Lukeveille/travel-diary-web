@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { handleAuthSSR } from '../utils/auth';
-import fetch from 'isomorphic-unfetch';
 import UserDeleteForm from './UserDeleteForm';
 import UserEditForm from './UserEditForm';
 
-const UserProfile = props => {
+export default props => {
   const [form, setForm] = useState('');
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
@@ -30,7 +28,6 @@ const UserProfile = props => {
       {
         form == 'delete'? <UserDeleteForm
           user={props.user}
-          sendUser={sendUser}
           setError={setError}
           password={password}
           setPassword={setPassword}
@@ -40,7 +37,6 @@ const UserProfile = props => {
           /> :
           form === 'edit'? <UserEditForm
           user={props.user}
-          sendUser={sendUser}
           setError={setError}
           password={password}
           setPassword={setPassword}
@@ -70,14 +66,3 @@ const UserProfile = props => {
     </div>
   );
 };
-
-const sendUser = async function(method, user) {
-  const [headers, server] = handleAuthSSR(),
-  req = {...headers, body: JSON.stringify(user), mode: 'cors', method: method};
-  req.headers['Content-Type'] = 'application/json';
-
-  const res = await fetch(server + (method === 'DELETE'? 'delete/' + user.email : '')  , req);
-  return await res.json();
-}
-
-export default UserProfile;

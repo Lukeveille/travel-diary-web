@@ -1,5 +1,6 @@
 import { handleAuthSSR } from '../utils/auth';
 import { useState } from 'react';
+import serverCall from '../utils/serverCall';
 import fetch from 'isomorphic-unfetch';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -18,7 +19,7 @@ const Trip = props => {
       <span style={{fontStyle: currentTrip.title? 'normal' : 'italic'}}> "{currentTrip.title? currentTrip.title : 'Untitled'}"?</span>
     </h4>
     <button className="form-control" onClick={() => {
-      deleteTrip(currentTrip).then(() => {
+      serverCall('DELETE', currentTrip, currentTrip.dataKey).then(() => {
         Router.push('/');
       });
     }}>DELETE</button><button className="form-control" onClick={() => {
@@ -40,7 +41,8 @@ const Trip = props => {
         <span>
           <a onClick={() => {
             setEditing(!editing);
-            saveEdit(currentTrip.title? currentTrip : {...currentTrip, title: null});
+            serverCall('PATCH', currentTrip.title? currentTrip : {...currentTrip, title: null})
+            .then(res => console.log(res));
             setTemp(currentTrip);
           }}>Save</a>&nbsp;-&nbsp;
           <a onClick={() => {
@@ -69,23 +71,5 @@ Trip.getInitialProps = async function(ctx) {
   entries = await res.json();
   return { tripData: tripData.title? tripData : {...tripData, title: ''}, entries };
 };
-
-const saveEdit = async function(trip) {
-  const [headers, server] = handleAuthSSR(),
-  req = {...headers, body: JSON.stringify(trip), mode: 'cors', method: 'PATCH'};
-  req.headers['Content-Type'] = 'application/json';
-
-  const res = await fetch(server + trip.dataKey, req);
-  return await res.json();
-}
-
-const deleteTrip = async function(trip) {
-  const [headers, server] = handleAuthSSR(),
-  req = {...headers, mode: 'cors', method: 'DELETE'};
-  req.headers['Content-Type'] = 'application/json';
-  
-  const res = await fetch(server + trip.dataKey, req);
-  return await res.json();
-}
 
 export default Trip;
