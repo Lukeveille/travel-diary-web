@@ -32,6 +32,7 @@ const UserProfile = props => {
           setPassword={setPassword}
           email={email}
           setEmail={setEmail}
+          setForm={setForm}
           /> :
           form === 'edit'? <UserEditForm
           user={props.user}

@@ -26,6 +26,9 @@ h1, h3 {
   position: relative;
 }
 
+.error-msg {
+  color: #d00
+}
 .relative {
   position: relative;
 }

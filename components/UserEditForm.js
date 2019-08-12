@@ -11,12 +11,20 @@ export default props => (
       } else {
         props.setForm('');
         props.setPassword('');
+        props.setNewPassword('');
+        props.setShowPass('password');
         props.setError({ msg: 'Password updated!', ok: true });
       }
     })
   }}>
     <h2>Please confirm old password</h2>
-    <input value={props.password} onChange={event => props.setPassword(event.target.value)} className="form-control" type="password" placeholder="old password"/>
+    <input 
+      value={props.password} 
+      onChange={event => props.setPassword(event.target.value)} 
+      className="form-control" 
+      type="password" 
+      placeholder="old password"
+    />
 
     <div className="relative">
           
@@ -36,5 +44,13 @@ export default props => (
     </div>
 
     <button className="form-control" type="submit">Update Password</button>
+    <button className="form-control" type="button" onClick={event => {
+      event.preventDefault();
+      props.setForm('');
+      props.setForm('');
+      props.setPassword('');
+      props.setNewPassword('');
+      props.setShowPass('password');
+    }}>Cancel</button>
   </form>
 )

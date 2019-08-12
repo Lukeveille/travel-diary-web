@@ -23,6 +23,12 @@ export default props => (
     <p>Enter email and password to confirm</p>
   <input value={props.email} onChange={event => props.setEmail(event.target.value)} className="form-control" type="text" placeholder="email"/>
   <input value={props.password} onChange={event => props.setPassword(event.target.value)} className="form-control" type="password" placeholder="password"/>
+  <button className="form-control" onClick={event => {
+    event.preventDefault();
+    props.setForm('');
+    props.setEmail('');
+    props.setPassword('');
+  }}>CANCEL</button>
   <button className="form-control" type="submit">Delete User</button>
 </form>
 )
