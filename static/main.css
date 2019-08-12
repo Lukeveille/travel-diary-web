@@ -26,8 +26,8 @@ h1, h3 {
   position: relative;
 }
 
-.error-msg {
-  color: #D00;
+.relative {
+  position: relative;
 }
 .form-control-feedback {
   position: absolute;
@@ -51,6 +51,11 @@ h1, h3 {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.glyphicon {
+  cursor: pointer;
+  pointer-events: all;
+}
+
 h1 .glyphicon-pencil {
   margin: .75em .35em;
 }

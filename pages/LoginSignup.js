@@ -73,13 +73,6 @@ const LoginSignup = () => {
         h1 {
           margin-top: 5em;
         }
-        .glyphicon {
-          cursor: pointer;
-          pointer-events: all;
-        }
-        .relative {
-          position: relative;
-        }
         .login-signup-form {
           max-width: 300px;
           margin: auto;

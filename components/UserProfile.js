@@ -9,6 +9,7 @@ const UserProfile = props => {
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPass, setShowPass] = useState('password');
   const [newPassword, setNewPassword] = useState('');
   
   useEffect(() =>{
@@ -31,8 +32,8 @@ const UserProfile = props => {
           setPassword={setPassword}
           email={email}
           setEmail={setEmail}
-        /> :
-        form === 'edit'? <UserEditForm
+          /> :
+          form === 'edit'? <UserEditForm
           user={props.user}
           sendUser={sendUser}
           setError={setError}
@@ -40,6 +41,9 @@ const UserProfile = props => {
           setPassword={setPassword}
           newPassword={newPassword}
           setNewPassword={setNewPassword}
+          setForm={setForm}
+          showPass={showPass}
+          setShowPass={setShowPass}
         /> :
         <div>
           <h2>{props.user}</h2>
@@ -57,7 +61,7 @@ const UserProfile = props => {
           >Delete User</a>
         </div>
       }
-      <p className="error-msg">{error}</p>
+      <p style={{color: error.ok? '#090' : '#d00'}}>{error.msg}</p>
     </div>
   );
 };

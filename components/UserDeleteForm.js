@@ -8,14 +8,14 @@ export default props => (
     if (props.user === props.email) {
       props.sendUser('DELETE', { email: props.user, password: props.password }).then(res => {
         if (res.error) {
-          props.setError(res.error);
+          props.setError({ msg: res.error });
         } else {
           cookies.set('token', null);
           Router.push('/');
         }
       });
     } else {
-      props.setError('Invalid email')
+      props.setError({ msg: 'Invalid email' });
     };
   }}>
     <h2>ARE YOU SURE?</h2>
