@@ -26,6 +26,36 @@ h1, h3 {
   position: relative;
 }
 
+table {
+  margin: 1em auto;
+}
+thead, tbody {
+  outline: 1px solid #999;
+}
+tr {
+  cursor: pointer;
+  padding: .5em
+}
+th, td {
+  padding: .4em;
+}
+tr:hover td {
+  color: #ddd;
+}
+
+.entry-date {
+  padding: .3em 3em;
+}
+.entry-title {
+  padding: .3em 6em;
+}
+.entry-message {
+  padding: .3em 10em;
+}
+.entry-media {
+  padding: .3em 5em;
+}
+
 .error-msg {
   color: #d00
 }

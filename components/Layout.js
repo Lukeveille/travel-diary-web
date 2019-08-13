@@ -6,6 +6,7 @@ const Main = props => {
     <div>
       <Head>
         <link rel='stylesheet' href='/static/glyphicons/css/bootstrap.min.css' />
+        <link rel="shortcut icon" type="image/x-icon" href="../static/favicon.ico" />
         <link rel='stylesheet' href='/static/main.css' />
       </Head>
       {props.error? 

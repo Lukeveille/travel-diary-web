@@ -8,11 +8,13 @@ import Layout from '../components/Layout';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import EditField from '../components/EditField';
+import dateString from '../utils/dateString';
 
 const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
   [editing, setEditing] = useState(false),
-  [deleteModal, setDeleteModal] = useState('none'),
+  [modal, setModal] = useState('none'),
+  [modalContent, setModalContent] = useState(''),
   [temp, setTemp] = useState(props.tripData),
   deleteMessage = <div>
     <h4>Are you sure you want to delete
@@ -23,7 +25,7 @@ const Trip = props => {
         Router.push('/');
       });
     }}>DELETE</button><button className="form-control" onClick={() => {
-      setDeleteModal('none')
+      setModal('none')
     }}>Cancel</button>
   </div>
 
@@ -35,14 +37,40 @@ const Trip = props => {
       </Link>
       <h1><EditField on={editing} attribute="title" state={currentTrip} editState={editTrip} /></h1>
       <h3>Begins <EditField on={editing} attribute="startTime" state={currentTrip} editState={editTrip} /></h3>
+      {props.entries.length > 0? <table>
+        <thead>
+          <tr>
+            <th className="entry-date">Date</th>
+            <th className="entry-title">Title</th>
+            <th className="entry-message">Message</th>
+            <th className="entry-media">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.entries.map(entry => {
+            const [string, web] = dateString(entry.entryTime)
+            return (
+              <tr key={entry.dataKey} className={'entry'}>
+                <td>{string}</td>
+                <td>{entry.title}</td>
+                <td>{entry.message}</td>
+                <td>{entry.link}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table> : ''}
+      <div onClick={() => {
+        setModalContent(<h1>Yay</h1>);
+        editing? '' : setModal(true);
+      }} className="new-entry">{editing? '' : '+ New Entry'}</div>
       <h3>Ends <EditField on={editing} attribute="endTime" state={currentTrip} editState={editTrip} /></h3>
       <h3>
         {editing?
         <span>
           <a onClick={() => {
             setEditing(!editing);
-            serverCall('PATCH', currentTrip.title? currentTrip : {...currentTrip, title: null})
-            .then(res => console.log(res));
+            serverCall('PATCH', currentTrip.title? currentTrip : {...currentTrip, title: null}, currentTrip.dataKey)
             setTemp(currentTrip);
           }}>Save</a>&nbsp;-&nbsp;
           <a onClick={() => {
@@ -53,11 +81,25 @@ const Trip = props => {
         <a onClick={() => { setEditing(!editing) }}>Edit</a>}
       </h3>
       {editing? <a onClick={() => {
-        setDeleteModal(true)
+        setModalContent(deleteMessage);
+        setModal(true);
       }}>Delete Trip</a> : ''}
-      <Modal closer={true} show={deleteModal} setShow={setDeleteModal} children={
-        deleteMessage
-      }/>
+      <Modal closer={true} show={modal} setShow={setModal} children={modalContent}/>
+      <style jsx>{`
+        .new-entry {
+          disply: inline;
+          border: 1px solid #fff;
+          border-radius: 10px;
+          cursor: ${editing? 'default' : 'pointer'};
+          padding: .3em;
+          max-width: 100px;
+          margin: auto;
+          min-height: 2.2em;
+        }
+        .new-entry:hover {
+          border: 1px solid ${editing? '#fff' : '#ddd'};
+        }
+      `}</style>
     </Layout>
   );
 };
