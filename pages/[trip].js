@@ -1,10 +1,11 @@
 import { handleAuthSSR } from '../utils/auth';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import serverCall from '../utils/serverCall';
 import fetch from 'isomorphic-unfetch';
 import Link from 'next/link';
 import Router from 'next/router';
 import Layout from '../components/Layout';
+import EntryForm from '../components/EntryForm';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import EditField from '../components/EditField';
@@ -14,8 +15,22 @@ const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
   [editing, setEditing] = useState(false),
   [modal, setModal] = useState('none'),
+  [modalClose, setModalClose] = useState(true),
   [modalContent, setModalContent] = useState(''),
+  [newEntry, setNewEntry] = useState({
+    title: '',
+    entryTime: {date: '', time: ''},
+    geotag: { lat: '', long: '' },
+    link: '',
+    locationName: '',
+    message: '',
+  }),
   [temp, setTemp] = useState(props.tripData),
+  submitNewEntry = event => {
+    event.preventDefault();
+    serverCall('POST', newEntry, currentTrip.dataKey).then(res => console.log(res))
+    console.log(newEntry)
+  },
   deleteMessage = <div>
     <h4>Are you sure you want to delete
       <span style={{fontStyle: currentTrip.title? 'normal' : 'italic'}}> "{currentTrip.title? currentTrip.title : 'Untitled'}"?</span>
@@ -29,8 +44,16 @@ const Trip = props => {
     }}>Cancel</button>
   </div>
 
+  useEffect(() => {
+    setModalContent(<EntryForm
+      newEntry={newEntry}
+      setNewEntry={setNewEntry}
+      submitNewEntry={submitNewEntry}
+    />);
+  }, [newEntry]);
+
   return (
-    <Layout error={currentTrip.error}>
+    <Layout error={currentTrip.error} onKeyDown={event => console.log(event)}>
       <Header user={currentTrip.dataSource} />
       <Link href="/">
         <a>&lt;- Trips</a>
@@ -61,7 +84,12 @@ const Trip = props => {
         </tbody>
       </table> : ''}
       <div onClick={() => {
-        setModalContent(<h1>Yay</h1>);
+        setModalContent(<EntryForm
+            newEntry={newEntry}
+            setNewEntry={setNewEntry}
+            submitNewEntry={submitNewEntry}
+          />);
+        setModalClose(false);
         editing? '' : setModal(true);
       }} className="new-entry">{editing? '' : '+ New Entry'}</div>
       <h3>Ends <EditField on={editing} attribute="endTime" state={currentTrip} editState={editTrip} /></h3>
@@ -83,8 +111,9 @@ const Trip = props => {
       {editing? <a onClick={() => {
         setModalContent(deleteMessage);
         setModal(true);
+        setModalClose(true);
       }}>Delete Trip</a> : ''}
-      <Modal closer={true} show={modal} setShow={setModal} children={modalContent}/>
+      <Modal closer={modalClose} show={modal} setShow={setModal} children={modalContent}/>
       <style jsx>{`
         .new-entry {
           disply: inline;

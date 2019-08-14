@@ -43,6 +43,16 @@ tr:hover td {
   color: #ddd;
 }
 
+.date-time input {
+  max-width: 45%;
+  display: inline-block;
+  margin: .3em;
+}
+.geo-map {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1em
+}
 .entry-date {
   padding: .3em 3em;
 }

@@ -4,7 +4,6 @@ const TripForm = props => {
       <h2>Create a New Trip</h2>
       <input
         autoFocus
-        ref={props.inputRef}
         type="text"
         className="form-control"
         value={props.newTrip.title}

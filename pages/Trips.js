@@ -5,34 +5,36 @@ import Header from '../components/Header';
 import Modal from '../components/Modal';
 import TripForm from '../components/TripForm';
 import fetch from 'isomorphic-unfetch';
-import { useState, useRef } from 'react';
+import serverCall from '../utils/serverCall';
+import { useState, useEffect } from 'react';
 import { handleAuthSSR } from '../utils/auth';
 import dateString from '../utils/dateString';
 import convertUTC from '../utils/convertUTC';
 
 const Trips = props => {
-  const inputRef = useRef(),
-  [trips, setTrips] = useState(props.trips),
-  [tripModal, setTripModal] = useState('none'),
+  const [tripModal, setTripModal] = useState('none'),
   [newTrip, setNewTrip] = useState({title: '', startTime: '', endTime: ''}),
   submitNewTrip = () => {
     newTrip.startTime = convertUTC(newTrip.startTime);
     newTrip.endTime = convertUTC(newTrip.endTime);
-    newTrip.title = newTrip.title? newTrip.title : null;
-    createTrip(newTrip)
+    serverCall('POST', newTrip, 'new-trip')
     .then(res => Router.push(`/${res.message.split(' ')[0]}`))
     .catch(() => {
-      createTrip(newTrip)
+      serverCall('POST', newTrip, 'new-trip')
       .then(res => Router.push(`/${res.message.split(' ')[0]}`))
       .catch(err => alert(err))
     });
   };
 
+  useEffect(() => {
+    console.log(newTrip)
+  }, [newTrip])
+
   return <Layout>
     <Header user={props.user} />
     <h1>Trips</h1>
     <div className="trip-list">
-      {trips.map(trip => {
+      {props.trips.map(trip => {
         const style = {fontStyle: trip.title? 'normal' : 'italic'}
         return <Link href="/[Trip]" as={`${trip.dataKey}`} key={trip.dataKey}>
           <a
@@ -97,9 +99,7 @@ const Trips = props => {
       <TripForm
         newTrip={newTrip}
         setNewTrip={setNewTrip}
-        createTrip={createTrip}
         submitNewTrip={submitNewTrip}
-        inputRef={inputRef}
         dateString={dateString}
       />
     } />
