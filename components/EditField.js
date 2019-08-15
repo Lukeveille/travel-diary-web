@@ -14,7 +14,14 @@ export default props => {
   }, [props.on])
 
   return (
-    <span>
+    <span
+      style={{cursor: 'pointer'}}
+      onMouseOver={() => { setHover(true) }}
+      onMouseLeave={() => { setHover(edit? true : false) }}
+      onClick={() => {
+        setTemp(props.state[props.attribute]);
+      }}
+    >
       <input
         autoFocus
         type={type}
@@ -38,15 +45,24 @@ export default props => {
         value={type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1]}
         style={{display: props.on && edit? 'inline' : 'none'}}
       />
-      <span style={{color: blank? "#ddd" : "#444", fontStyle: blank? 'italic' : 'normal', display: props.on && edit? 'none' : 'inline'}}>
+      <span
+        onClick={() => {
+          setEdit(true);
+        }}
+        style={{
+          color: blank? "#ddd" : "#444",
+          fontStyle: blank? 'italic' : 'normal',
+          display: props.on && edit? 'none' : 'inline'
+        }}
+      >
         {blank? 'Untitled' : type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
       </span>
       {props.on? <i
         style={{color: hover? '#444' : '#ddd'}}
         className={"glyphicon glyphicon-pencil"}
-        onMouseOver={() => { setHover(true) }}
-        onMouseLeave={() => { setHover(edit? true : false) }}
-        onClick={() => { setEdit(!edit); setTemp(props.state[props.attribute]) }}
+        onClick={() => {
+          setEdit(!edit);
+        }}
       ></i> : ''}
     </span>
   )
