@@ -1,16 +1,31 @@
 import EditField from './EditField';
 import GeoMap from './GeoMap';
+import{ useState, useEffect } from 'react';
 
 export default props => {
+  const [currentEntry, setCurrentEntry] = useState(props.entry);
+  const createEditField = attribute => {
+    return <EditField
+      on={props.editing}
+      attribute={attribute}
+      state={currentEntry}
+      editState={setCurrentEntry}
+    />
+  };
+  useEffect(() => {
+    setCurrentEntry(props.entry);
+    props.setModal(true);
+  }, [props]);
+
   return (
     <div>
-      <h1><EditField on={props.editing} attribute="title" state={props.entry} editState={props.setEntry} /></h1>
-      <h3><EditField on={props.editing} attribute="entryTime" state={props.entry} editState={props.setEntry} /></h3>
-      <p><EditField on={props.editing} attribute="message" state={props.entry} editState={props.setEntry} /></p>
+      <h1>{createEditField('title')}</h1>
+      <h3>{createEditField('entryTime')}</h3>
+      <p>{createEditField('message')}</p>
       <GeoMap geotag={props.entry.geotag} state={props.entry} setState={props.setEntry} />
-      <p><EditField on={props.editing} attribute="locationName" state={props.entry} editState={props.setEntry} /></p>
-      {props.editing? <p><EditField on={props.editing} attribute="link" state={props.entry} editState={props.setEntry} /></p> :
+      <p>{createEditField('locationName')}</p>
+      {props.editing? <p>{createEditField('link')}</p> :
       <a href={props.entry.link} target="_blank">{props.entry.link}</a>}
     </div>
-  )
-}
+  );
+};

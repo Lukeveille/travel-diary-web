@@ -14,7 +14,6 @@ import dateString from '../utils/dateString';
 
 const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
-  [currentEntry, setCurrentEntry] = useState(''),
   [editing, setEditing] = useState(false),
   [modal, setModal] = useState('none'),
   [modalClose, setModalClose] = useState(true),
@@ -81,11 +80,8 @@ const Trip = props => {
                 key={entry.dataKey}
                 className={'entry'}
                 onClick={() => {
-                  // setModal(modalContent? true : '');
-                  setCurrentEntry(entry)
-                  setModalContent(<Entry entry={entry} setEntry={setCurrentEntry} editing={editing} setModal={setModal} modal={modal} />);
+                  setModalContent(<Entry entry={entry} editing={editing} setModal={setModal} modal={modal} />);
                   setModalClose(true);
-                  setModal(true);
                 }}
               >
                 <td>{string}</td>
