@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import serverCall from '../utils/serverCall';
 import fetch from 'isomorphic-unfetch';
 import Link from 'next/link';
-import Router from 'next/router';
 import Layout from '../components/Layout';
 import EntryForm from '../components/EntryForm';
 import Header from '../components/Header';
@@ -11,6 +10,7 @@ import Modal from '../components/Modal';
 import Entry from '../components/Entry';
 import EditField from '../components/EditField';
 import dateString from '../utils/dateString';
+import EditSwitch from '../components/EditSwitch';
 
 const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
@@ -33,19 +33,7 @@ const Trip = props => {
     .then(res => {
       window.location.reload();
     })
-  },
-  deleteMessage = <div>
-    <h4>Are you sure you want to delete
-      <span style={{fontStyle: currentTrip.title? 'normal' : 'italic'}}> "{currentTrip.title? currentTrip.title : 'Untitled'}"?</span>
-    </h4>
-    <button className="form-control" onClick={() => {
-      serverCall('DELETE', currentTrip, currentTrip.dataKey).then(() => {
-        Router.push('/');
-      });
-    }}>DELETE</button><button className="form-control" onClick={() => {
-      setModal('none')
-    }}>Cancel</button>
-  </div>
+  }
 
   useEffect(() => {
     setModalContent(<EntryForm
@@ -73,8 +61,8 @@ const Trip = props => {
           </tr>
         </thead>
         <tbody>
-          {props.entries.map(entry => {
-            const [string, web] = dateString(entry.entryTime)
+          {props.entries.map((entry) => {
+            const [string, web] = dateString(entry.entryTime);
             return (
               <tr
                 key={entry.dataKey}
@@ -103,26 +91,19 @@ const Trip = props => {
         editing? '' : setModal(true);
       }} className="new-entry">{editing? '' : '+ New Entry'}</div>
       <h3>Ends <EditField on={editing} attribute="endTime" state={currentTrip} editState={editTrip} /></h3>
-      <h3>
-        {editing?
-        <span>
-          <a onClick={() => {
-            setEditing(!editing);
-            serverCall('PATCH', currentTrip.title? currentTrip : {...currentTrip, title: null}, currentTrip.dataKey)
-            setTemp(currentTrip);
-          }}>Save</a>&nbsp;-&nbsp;
-          <a onClick={() => {
-            setEditing(!editing);
-            editTrip(temp);
-          }}>Discard</a>
-        </span> :
-        <a onClick={() => { setEditing(!editing) }}>Edit</a>}
-      </h3>
-      {editing? <a onClick={() => {
-        setModalContent(deleteMessage);
-        setModal(true);
-        setModalClose(true);
-      }}>Delete Trip</a> : ''}
+      
+      <EditSwitch
+        editing={editing}
+        setEditing={setEditing}
+        temp={temp}
+        setTemp={setTemp}
+        editTrip={editTrip}
+        setModalContent={setModalContent}
+        setModal={setModal}
+        setModalClose={setModalClose}
+        currentTrip={currentTrip}
+      />
+
       <Modal closer={modalClose} show={modal} setShow={setModal} children={modalContent}/>
       <style jsx>{`
         .new-entry {

@@ -25,11 +25,7 @@ const Trips = props => {
       .catch(err => alert(err))
     });
   };
-
-  useEffect(() => {
-    console.log(newTrip)
-  }, [newTrip])
-
+  
   return <Layout>
     <Header user={props.user} />
     <h1>Trips</h1>

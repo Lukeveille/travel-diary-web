@@ -14,7 +14,7 @@ Index.getInitialProps = async function (ctx) {
     const res = await fetch(server + 'trips', headers);
     return await res.json();
   } catch (err) {
-    console.log(err)
+    console.error(err)
     if (ctx.res) {
       ctx.res.writeHead(302, {
         Location: '/'
