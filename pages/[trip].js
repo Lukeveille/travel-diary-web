@@ -8,6 +8,7 @@ import Layout from '../components/Layout';
 import EntryForm from '../components/EntryForm';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
+import Entry from '../components/Entry';
 import EditField from '../components/EditField';
 import dateString from '../utils/dateString';
 
@@ -28,8 +29,10 @@ const Trip = props => {
   [temp, setTemp] = useState(props.tripData),
   submitNewEntry = event => {
     event.preventDefault();
-    serverCall('POST', newEntry, currentTrip.dataKey).then(res => console.log(res))
-    console.log(newEntry)
+    serverCall('POST', newEntry, currentTrip.dataKey)
+    .then(res => {
+      window.location.reload();
+    })
   },
   deleteMessage = <div>
     <h4>Are you sure you want to delete
@@ -73,7 +76,15 @@ const Trip = props => {
           {props.entries.map(entry => {
             const [string, web] = dateString(entry.entryTime)
             return (
-              <tr key={entry.dataKey} className={'entry'}>
+              <tr
+                key={entry.dataKey}
+                className={'entry'}
+                onClick={() => {
+                  setModalContent(<Entry entry={entry} editing={editing} />);
+                  setModalClose(true);
+                  setModal(true);
+                }}
+              >
                 <td>{string}</td>
                 <td>{entry.title}</td>
                 <td>{entry.message}</td>

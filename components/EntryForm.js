@@ -1,5 +1,6 @@
+import GeoMap from './GeoMap'
+
 const TripForm = props => {
-  console.log(props.newEntry.entryTime)
   return (
     <form className="modal-form entry-form" onSubmit={props.submitNewEntry}>
       <h2>Create a New Entry</h2>
@@ -10,7 +11,13 @@ const TripForm = props => {
           className="form-control"
           value={props.newEntry.entryTime.time}
           onChange={event => {
-            props.setNewEntry({...props.newEntry, entryTime: {...props.newEntry.entryTime, time: event.target.value }})
+            props.setNewEntry({
+              ...props.newEntry,
+              entryTime: {
+                ...props.newEntry.entryTime,
+                time: event.target.value
+              }
+            })
           }}
         />
         <input
@@ -19,7 +26,13 @@ const TripForm = props => {
           className="form-control"
           value={props.newEntry.entryTime.date}
           onChange={event => {
-            props.setNewEntry({...props.newEntry, entryTime: {...props.newEntry.entryTime, date: event.target.value }})
+            props.setNewEntry({
+              ...props.newEntry,
+              entryTime: {
+                ...props.newEntry.entryTime,
+                date: event.target.value
+              }
+            })
           }}
         />
       </div>
@@ -42,21 +55,11 @@ const TripForm = props => {
           props.setNewEntry({...props.newEntry, message: event.target.value})
         }}
       />
-      <div className="geo-map">
-        <h2>GEO-MAP</h2>
-        {props.newEntry.geotag?
-          <div>
-            <p>{props.newEntry.geotag.lat}</p>
-            <p>{props.newEntry.geotag.long}</p>
-          </div> : ''
-        }
-        <button onClick={event => {
-          event.preventDefault();
-          navigator.geolocation.getCurrentPosition(position => {
-            props.setNewEntry({...props.newEntry, geotag: { lat: position.coords.latitude, long: position.coords.longitude}});
-          })
-        }}>Get Location</button>
-      </div>
+      <GeoMap
+        geotag={props.newEntry.geotag}
+        state={props.newEntry}
+        setState={props.setNewEntry}
+      />
       <input
         placeholder="Name"
         className="form-control"
