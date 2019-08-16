@@ -1,18 +1,22 @@
 import serverCall from '../utils/serverCall';
 import Router from 'next/router';
+import { useState } from 'react';
 
 export default props => {
-  const deleteMessage = <div>
-    <h4>Are you sure you want to delete
-      <span style={{fontStyle: props.currentTrip.title? 'normal' : 'italic'}}> "{props.currentTrip.title? props.currentTrip.title : 'Untitled'}"?</span>
-    </h4>
+  const [temp, setTemp] = useState(props.data),
+  deleteMessage = <div>
+    <p>Are you sure you want to delete
+      <span style={{fontStyle: props.data.title? 'normal' : 'italic'}}> "{props.data.title? props.data.title : 'Untitled'}"?</span>
+    </p>
+    <h4>{props.warning}</h4>
     <button className="form-control" onClick={() => {
-      serverCall('DELETE', currentTrip, currentTrip.dataKey).then(() => {
-        Router.push('/');
-      });
-    }}>DELETE</button><button className="form-control" onClick={() => {
       props.setModal('none')
     }}>Cancel</button>
+    <button className="form-control" onClick={() => {
+      serverCall('DELETE', props.data, props.link).then(() => {
+        Router.push('/');
+      });
+    }}>Delete {props.type}</button>
   </div>
   return (
     <div>
@@ -21,12 +25,12 @@ export default props => {
         <h3>
         <a onClick={() => {
           props.setEditing(!props.editing);
-          serverCall('PATCH', props.currentTrip, props.currentTrip.dataKey)
-          props.setTemp(props.currentTrip);
+          serverCall('PATCH', props.data, props.link)
+          setTemp(props.data);
         }}>Save</a>&nbsp;-&nbsp;
         <a onClick={() => {
           props.setEditing(!props.editing);
-          props.editTrip(props.temp);
+          props.edit(temp);
         }}>Discard</a>
         </h3>
         <a onClick={() => {
@@ -35,7 +39,7 @@ export default props => {
           props.setModalClose(true);
         }}>Delete Trip</a>
       </div> :
-      <h3><a onClick={() => { props.setEditing(!props.editing) }}>Edit</a></h3>}
+      <p><a onClick={() => { props.setEditing(!props.editing) }}>Edit</a></p>}
     </div>
   );
 };

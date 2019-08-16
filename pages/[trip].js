@@ -14,6 +14,7 @@ import EditSwitch from '../components/EditSwitch';
 
 const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
+  [entries, setEntries] = useState(props.entries),
   [editing, setEditing] = useState(false),
   [modal, setModal] = useState('none'),
   [modalClose, setModalClose] = useState(true),
@@ -26,7 +27,7 @@ const Trip = props => {
     locationName: '',
     message: '',
   }),
-  [temp, setTemp] = useState(props.tripData),
+  
   submitNewEntry = event => {
     event.preventDefault();
     serverCall('POST', newEntry, currentTrip.dataKey)
@@ -42,6 +43,9 @@ const Trip = props => {
       submitNewEntry={submitNewEntry}
     />);
   }, [newEntry]);
+  useEffect(() => {
+
+  })
 
   return (
     <Layout error={currentTrip.error} onKeyDown={event => console.log(event)}>
@@ -51,7 +55,7 @@ const Trip = props => {
       </Link>
       <h1><EditField on={editing} attribute="title" state={currentTrip} editState={editTrip} /></h1>
       <h3>Begins <EditField on={editing} attribute="startTime" state={currentTrip} editState={editTrip} /></h3>
-      {props.entries.length > 0? <table>
+      {entries.length > 0? <table>
         <thead>
           <tr>
             <th className="entry-date">Date</th>
@@ -61,15 +65,23 @@ const Trip = props => {
           </tr>
         </thead>
         <tbody>
-          {props.entries.map((entry) => {
+          {entries.map((entry, i) => {
             const [string, web] = dateString(entry.entryTime);
             return (
               <tr
                 key={entry.dataKey}
                 className={'entry'}
                 onClick={() => {
-                  setModalContent(<Entry entry={entry} editing={editing} setModal={setModal} modal={modal} />);
-                  setModalClose(true);
+                  if (!editing) {
+                    setModalContent(<Entry
+                        entry={entry}
+                        setModalContent={setModalContent}
+                        setModal={setModal}
+                        modal={modal}
+                        setModalClose={setModalClose}
+                      />);
+                    setModalClose(true);
+                  }
                 }}
               >
                 <td>{string}</td>
@@ -91,19 +103,18 @@ const Trip = props => {
         editing? '' : setModal(true);
       }} className="new-entry">{editing? '' : '+ New Entry'}</div>
       <h3>Ends <EditField on={editing} attribute="endTime" state={currentTrip} editState={editTrip} /></h3>
-      
       <EditSwitch
+        edit={editTrip}
         editing={editing}
         setEditing={setEditing}
-        temp={temp}
-        setTemp={setTemp}
-        editTrip={editTrip}
         setModalContent={setModalContent}
         setModal={setModal}
         setModalClose={setModalClose}
-        currentTrip={currentTrip}
+        data={currentTrip}
+        warning="This will also delete all entries and media!"
+        type="Trip"
+        link={currentTrip.dataKey}
       />
-
       <Modal closer={modalClose} show={modal} setShow={setModal} children={modalContent}/>
       <style jsx>{`
         .new-entry {

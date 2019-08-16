@@ -30,7 +30,7 @@ export default props => (
     props.setForm('');
     props.setEmail('');
     props.setPassword('');
-  }}>CANCEL</button>
+  }}>Cancel</button>
   <button className="form-control" type="submit">Delete User</button>
 </form>
 );

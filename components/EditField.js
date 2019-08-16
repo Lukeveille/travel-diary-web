@@ -15,7 +15,7 @@ export default props => {
 
   return (
     <span
-      style={{cursor: 'pointer'}}
+      style={{cursor: props.on? 'pointer' : 'text'}}
       onMouseOver={() => { setHover(true) }}
       onMouseLeave={() => { setHover(edit? true : false) }}
       onClick={() => {
