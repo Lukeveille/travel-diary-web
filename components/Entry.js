@@ -58,6 +58,20 @@ export default props => {
         link={`${currentEntry.dataSource}/${currentEntry.dataKey}`}
         home={currentEntry.dataSource}
       />
+      <h3 className='scroll-btns'>
+        {props.index? <span
+          style={{cursor: 'pointer'}}
+          onClick={() => {
+            props.setCurrentIndex(props.index-1)
+          }}
+        >&lt;&lt;</span> : <span>&nbsp;</span>}
+        {props.index !== props.entries.length-1? <span
+          style={{cursor: 'pointer'}}
+          onClick={() => {
+            props.setCurrentIndex(props.index+1)
+          }}
+        >&gt;&gt;</span> : <span>&nbsp;</span>}
+      </h3>
     </div>
   );
 };

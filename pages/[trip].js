@@ -35,6 +35,7 @@ const Trip = props => {
   entryDisplay = index => <Entry
     entries={entries}
     index={index}
+    setCurrentIndex={setCurrentIndex}
     setModalContent={setModalContent}
     setModal={setModal}
     modal={modal}
@@ -61,11 +62,16 @@ const Trip = props => {
 
   useEffect(() => {
     setModalContent(entryDisplay(currentIndex));
-  }, [setEntry]);
+  }, [setEntry, currentIndex]);
   
   useEffect(() => {
     setModalClose(true)
-  }, [modal])
+  }, [modal]);
+
+  // useEffect(() => {
+  //   console.log(currentIndex)
+  //   setModalContent(entryDisplay(currentIndex))
+  // }, [currentIndex])
 
   return (
     <Layout error={currentTrip.error}>

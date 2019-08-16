@@ -2,6 +2,7 @@ body {
   text-align: center;
   color: #444;
 }
+.scroll-btns,
 header {
   display: flex;
   justify-content: space-between;
