@@ -22,7 +22,7 @@ button:hover {
   border-color: #444;
   color: #000;
 }
-p, h1, h3 {
+a, p, h1, h3 {
   position: relative;
 }
 
@@ -99,6 +99,7 @@ tr:hover td {
   pointer-events: all;
 }
 
+a .glyphicon-pencil,
 p .glyphicon-pencil {
   margin: 0 .35em;
 }

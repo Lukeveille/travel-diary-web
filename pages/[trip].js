@@ -14,7 +14,7 @@ import EditSwitch from '../components/EditSwitch';
 
 const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
-  [entries, setEntries] = useState(props.entries),
+  [entries, setEntries] = useState(props.entries? props.entries : []),
   [editing, setEditing] = useState(false),
   [modal, setModal] = useState('none'),
   [modalClose, setModalClose] = useState(true),
@@ -52,7 +52,7 @@ const Trip = props => {
       <Link href="/">
         <a>&lt;- Trips</a>
       </Link>
-      <h1><EditField on={editing} attribute="title" state={currentTrip} editState={editTrip} /></h1>
+      <h1><EditField on={editing} attribute="title" state={currentTrip} editState={editTrip} blank="Untitled" /></h1>
       <h3>Begins <EditField on={editing} attribute="startTime" state={currentTrip} editState={editTrip} /></h3>
       {entries.length > 0? <table>
         <thead>
@@ -64,8 +64,7 @@ const Trip = props => {
           </tr>
         </thead>
         <tbody>
-          {entries.map((entry, i) => {
-            const [string, web] = dateString(entry.entryTime);
+          {entries? entries.map((entry, i) => {
             return (
               <tr
                 key={entry.dataKey}
@@ -83,13 +82,13 @@ const Trip = props => {
                   }
                 }}
               >
-                <td>{string}</td>
+                <td>{dateString(entry.entryTime)[0]}</td>
                 <td>{entry.title}</td>
                 <td>{entry.message}</td>
                 <td>{entry.link}</td>
               </tr>
             )
-          })}
+          }) : ''}
         </tbody>
       </table> : ''}
       <div onClick={() => {
@@ -113,6 +112,7 @@ const Trip = props => {
         warning="This will also delete all entries and media!"
         type="Trip"
         link={currentTrip.dataKey}
+        home=''
       />
       <Modal closer={modalClose} show={modal} setShow={setModal} children={modalContent}/>
       <style jsx>{`

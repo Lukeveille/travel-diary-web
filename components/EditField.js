@@ -6,8 +6,27 @@ export default props => {
   const [edit, setEdit] = useState(false),
   [hover, setHover] = useState(false),
   [temp, setTemp] = useState(undefined),
+  options = {...props.options},
   blank = props.state[props.attribute] === '',
-  type = typeof props.state[props.attribute] === 'number'? 'date' : 'text';
+  type = typeof props.state[props.attribute] === 'number'? 'date' : 'text',
+  keyEvent = event => {
+    if (event.keyCode === 13) {
+      setEdit(!edit);
+      setHover(false);
+    } else if (event.keyCode === 27) {
+      setEdit(!edit);
+      setHover(false);
+      props.editState({...props.state, [props.attribute]: temp })
+    };
+  },
+  fieldDisplay = type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1],
+  inputType = event => {
+    props.editState(
+      {...props.state,
+        [props.attribute]: type === 'text'? event.target.value : convertUTC(event.target.value)
+      }
+    );
+  };
 
   useEffect(() => {
     setEdit(false)
@@ -15,7 +34,7 @@ export default props => {
 
   return (
     <span
-      style={{cursor: props.on? 'pointer' : 'text'}}
+      style={{cursor: props.on || options.link? 'pointer' : 'text'}}
       onMouseOver={() => { setHover(true) }}
       onMouseLeave={() => { setHover(edit? true : false) }}
       onClick={() => {
@@ -25,25 +44,18 @@ export default props => {
       <input
         autoFocus
         type={type}
-        onKeyDown={ event => {
-          if (event.keyCode === 13) {
-            setEdit(!edit);
-            setHover(false);
-          } else if (event.keyCode === 27) {
-            setEdit(!edit);
-            setHover(false);
-            props.editState({...props.state, [props.attribute]: temp })
-          }
-        }}
-        onChange={event => {
-          props.editState(
-            {...props.state,
-              [props.attribute]: type === 'text'? event.target.value : convertUTC(event.target.value)
-            }
-          )
-        }}
-        value={type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1]}
-        style={{display: props.on && edit? 'inline' : 'none'}}
+        onKeyDown={keyEvent}
+        onChange={inputType}
+        value={fieldDisplay}
+        style={{display: props.on && edit && !options.textarea? 'inline' : 'none'}}
+      />
+      <textarea
+        autoFocus
+        type={type}
+        onKeyDown={keyEvent}
+        onChange={inputType}
+        value={fieldDisplay}
+        style={{display: props.on && edit && options.textarea? 'inline' : 'none'}}
       />
       <span
         onClick={() => {
@@ -55,7 +67,7 @@ export default props => {
           display: props.on && edit? 'none' : 'inline'
         }}
       >
-        {blank? 'Untitled' : type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
+        {blank? props.blank : type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
       </span>
       {props.on? <i
         style={{color: hover? '#444' : '#ddd'}}

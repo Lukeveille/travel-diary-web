@@ -14,7 +14,7 @@ export default props => {
     }}>Cancel</button>
     <button className="form-control" onClick={() => {
       serverCall('DELETE', props.data, props.link).then(() => {
-        Router.push('/');
+        Router.push(`/${props.home}`);
       });
     }}>Delete {props.type}</button>
   </div>
@@ -37,7 +37,7 @@ export default props => {
           props.setModalContent(deleteMessage);
           props.setModal(true);
           props.setModalClose(true);
-        }}>Delete Trip</a>
+        }}>Delete {props.type}</a>
       </div> :
       <p><a onClick={() => { props.setEditing(!props.editing) }}>Edit</a></p>}
     </div>
