@@ -4,7 +4,7 @@ import EditSwitch from './EditSwitch';
 import{ useState, useEffect } from 'react';
 
 export default props => {
-  const [currentEntry, setCurrentEntry] = useState(props.entry),
+  const [currentEntry, setCurrentEntry] = useState(props.entries[props.index]),
   [editing, setEditing] = useState(false),
   createEditField = (attribute, blank, options) => {
     return <EditField
@@ -18,16 +18,21 @@ export default props => {
   };
 
   useEffect(() => {
-    setCurrentEntry(props.entry);
-    props.setModal(true);
+    props.setModalClose(editing? false : true)
+  }, [editing]);
+  
+  useEffect(() => {
+    setCurrentEntry(props.entries[props.index]);
+    setEditing(false);
+    currentEntry? props.setModal(true) : setCurrentEntry(props.blankEntry);
   }, [props]);
 
-  return (
+  return !currentEntry? '' : (
     <div>
       <h1>{createEditField('title', 'Untitled')}</h1>
       <h3>{createEditField('entryTime')}</h3>
       <p>{createEditField('message', 'No message', { textarea: true })}</p>
-      <GeoMap geotag={props.entry.geotag} state={currentEntry} setState={setCurrentEntry} />
+      <GeoMap geotag={currentEntry.geotag} state={currentEntry} setState={setCurrentEntry} />
       <p>{createEditField('locationName', 'No name')}</p>
       <a
         href={currentEntry.link? `http://${currentEntry.link}` : ''}

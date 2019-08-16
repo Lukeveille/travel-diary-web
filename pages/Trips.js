@@ -10,7 +10,6 @@ import dateString from '../utils/dateString';
 import convertUTC from '../utils/convertUTC';
 
 const Trips = props => {
-  console.log(props)
   const [tripModal, setTripModal] = useState('none'),
   [newTrip, setNewTrip] = useState({title: '', startTime: '', endTime: ''}),
   submitNewTrip = () => {

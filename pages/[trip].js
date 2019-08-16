@@ -15,19 +15,34 @@ import EditSwitch from '../components/EditSwitch';
 const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
   [entries, setEntries] = useState(props.entries? props.entries : []),
+  [setEntry, setEntrySwitch] = useState(true),
+  [currentIndex, setCurrentIndex] = useState(-1),
   [editing, setEditing] = useState(false),
+  [editEntry, setEditEntry] = useState(false),
   [modal, setModal] = useState('none'),
   [modalClose, setModalClose] = useState(true),
   [modalContent, setModalContent] = useState(''),
-  [newEntry, setNewEntry] = useState({
+  blankEntry = {
     title: '',
-    entryTime: {date: '', time: ''},
+    entryTime: 0,
+    // entryTime: {date: '', time: ''},
     geotag: { lat: '', long: '' },
     link: '',
     locationName: '',
     message: '',
-  }),
-  
+  },
+  [newEntry, setNewEntry] = useState(blankEntry),
+  entryDisplay = index => <Entry
+    entries={entries}
+    index={index}
+    setModalContent={setModalContent}
+    setModal={setModal}
+    modal={modal}
+    setModalClose={setModalClose}
+    blankEntry={blankEntry}
+    editing={editEntry}
+    setEditing={setEditEntry}
+  />,
   submitNewEntry = event => {
     event.preventDefault();
     serverCall('POST', newEntry, currentTrip.dataKey)
@@ -43,11 +58,17 @@ const Trip = props => {
       submitNewEntry={submitNewEntry}
     />);
   }, [newEntry]);
+
   useEffect(() => {
-  })
+    setModalContent(entryDisplay(currentIndex));
+  }, [setEntry]);
+  
+  useEffect(() => {
+    setModalClose(true)
+  }, [modal])
 
   return (
-    <Layout error={currentTrip.error} onKeyDown={event => console.log(event)}>
+    <Layout error={currentTrip.error}>
       <Header user={currentTrip.dataSource} />
       <Link href="/">
         <a>&lt;- Trips</a>
@@ -64,21 +85,16 @@ const Trip = props => {
           </tr>
         </thead>
         <tbody>
-          {entries? entries.map((entry, i) => {
+          {entries.map((entry, i) => {
             return (
               <tr
                 key={entry.dataKey}
                 className={'entry'}
                 onClick={() => {
                   if (!editing) {
-                    setModalContent(<Entry
-                        entry={entry}
-                        setModalContent={setModalContent}
-                        setModal={setModal}
-                        modal={modal}
-                        setModalClose={setModalClose}
-                      />);
-                    setModalClose(true);
+                    setCurrentIndex(i);
+                    setEntrySwitch(!setEntry);
+                    // setModalClose(true);
                   }
                 }}
               >
@@ -88,7 +104,7 @@ const Trip = props => {
                 <td>{entry.link}</td>
               </tr>
             )
-          }) : ''}
+          })}
         </tbody>
       </table> : ''}
       <div onClick={() => {
@@ -141,7 +157,7 @@ Trip.getInitialProps = async function(ctx) {
   res = await fetch(server + Trip + '/entries', headers),
   tripData = await tripRes.json(),
   entries = await res.json();
-  entries.map(entry => {
+  entries.error? '' : entries.map(entry => {
     for (let prop in entry) {
       if (Object.prototype.hasOwnProperty.call(entry, prop)) {
         entry[prop] = entry[prop] === null? '' :

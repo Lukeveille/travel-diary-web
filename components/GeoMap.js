@@ -9,7 +9,6 @@ export default props => {
         </div> : ''
       }
       <button onClick={event => {
-        console.log('start')
         event.preventDefault();
         navigator.geolocation.getCurrentPosition(position => {
           console.log(position)
