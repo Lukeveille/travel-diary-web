@@ -44,7 +44,6 @@ const Trip = props => {
     />);
   }, [newEntry]);
   useEffect(() => {
-
   })
 
   return (
@@ -142,7 +141,22 @@ Trip.getInitialProps = async function(ctx) {
   res = await fetch(server + Trip + '/entries', headers),
   tripData = await tripRes.json(),
   entries = await res.json();
-  return { tripData: tripData.title? tripData : {...tripData, title: ''}, entries };
+  entries.map(entry => {
+    for (let prop in entry) {
+      if (Object.prototype.hasOwnProperty.call(entry, prop)) {
+        entry[prop] = entry[prop] === null? '' :
+        prop === 'geotag'? {
+          lat: entry[prop].lat === null? '' : entry[prop].lat,
+          long: entry[prop].long === null? '' : entry[prop].long
+        } :
+        entry[prop];
+        
+      };
+    };
+  });
+  return {
+    tripData: tripData.title? tripData : {...tripData, title: ''}, entries
+  };
 };
 
 export default Trip;

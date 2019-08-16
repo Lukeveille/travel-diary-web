@@ -7,7 +7,7 @@ export default props => {
   [hover, setHover] = useState(false),
   [temp, setTemp] = useState(undefined),
   blank = props.state[props.attribute] === '',
-  type = blank || typeof props.state[props.attribute] === 'string'? 'text' : 'date';
+  type = typeof props.state[props.attribute] === 'number'? 'date' : 'text';
 
   useEffect(() => {
     setEdit(false)
@@ -38,7 +38,7 @@ export default props => {
         onChange={event => {
           props.editState(
             {...props.state,
-              [props.attribute]: type == 'text'? event.target.value : convertUTC(event.target.value)
+              [props.attribute]: type === 'text'? event.target.value : convertUTC(event.target.value)
             }
           )
         }}

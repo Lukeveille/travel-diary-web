@@ -4,14 +4,13 @@ import Layout from '../components/Layout';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import TripForm from '../components/TripForm';
-import fetch from 'isomorphic-unfetch';
 import serverCall from '../utils/serverCall';
-import { useState, useEffect } from 'react';
-import { handleAuthSSR } from '../utils/auth';
+import { useState } from 'react';
 import dateString from '../utils/dateString';
 import convertUTC from '../utils/convertUTC';
 
 const Trips = props => {
+  console.log(props)
   const [tripModal, setTripModal] = useState('none'),
   [newTrip, setNewTrip] = useState({title: '', startTime: '', endTime: ''}),
   submitNewTrip = () => {
@@ -100,15 +99,6 @@ const Trips = props => {
       />
     } />
   </Layout>
-};
-
-const createTrip = async function (trip) {
-  const [headers, server] = handleAuthSSR();
-  const req = {...headers, body: JSON.stringify(trip), mode: 'cors', method: 'POST'};
-  req.headers['Content-Type'] = 'application/json';
-  
-  const res = await fetch(server + 'new-trip', req);
-  return await res.json();
 };
 
 export default Trips;
