@@ -46,6 +46,8 @@ const Trip = props => {
   />,
   submitNewEntry = event => {
     event.preventDefault();
+    console.log(newEntry);
+  
     serverCall('POST', newEntry, currentTrip.dataKey)
     .then(res => {
       window.location.reload();
