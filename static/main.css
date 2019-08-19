@@ -52,7 +52,8 @@ tr:hover td {
 .geo-map {
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 1em
+  padding: 1em;
+  min-width: 65vw
 }
 .entry-date {
   padding: .3em 3em;

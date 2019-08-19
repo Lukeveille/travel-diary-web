@@ -19,7 +19,7 @@ export default props => {
       props.editState({...props.state, [props.attribute]: temp })
     };
   },
-  fieldDisplay = type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1],
+  fieldDisplay = type === 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1],
   inputType = event => {
     props.editState(
       {...props.state,
@@ -27,6 +27,10 @@ export default props => {
       }
     );
   };
+
+  if (props.attribute === 'entryTime') {
+
+  }
 
   useEffect(() => {
     setEdit(false)
@@ -67,7 +71,9 @@ export default props => {
           display: props.on && edit? 'none' : 'inline'
         }}
       >
-        {blank? props.blank : type == 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
+        {blank? props.blank :
+          props.attribute === 'entryTime'? props.state.entryTime.time :
+          type === 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
       </span>
       {props.on? <i
         style={{color: hover? '#444' : '#ddd'}}

@@ -11,6 +11,7 @@ import Entry from '../components/Entry';
 import EditField from '../components/EditField';
 import dateString from '../utils/dateString';
 import EditSwitch from '../components/EditSwitch';
+import convertUTC from '../utils/convertUTC';
 
 const Trip = props => {
   const [currentTrip, editTrip] = useState(props.tripData),
@@ -24,8 +25,7 @@ const Trip = props => {
   [modalContent, setModalContent] = useState(''),
   blankEntry = {
     title: '',
-    entryTime: 0,
-    // entryTime: {date: '', time: ''},
+    entryTime: {date: '', time: ''},
     geotag: { lat: '', long: '' },
     link: '',
     locationName: '',
@@ -46,9 +46,8 @@ const Trip = props => {
   />,
   submitNewEntry = event => {
     event.preventDefault();
-    console.log(newEntry);
-  
-    serverCall('POST', newEntry, currentTrip.dataKey)
+    console.log();
+    serverCall('POST', {...newEntry, entryTime: convertUTC(newEntry.entryTime.date, newEntry.entryTime.time) }, currentTrip.dataKey)
     .then(res => {
       window.location.reload();
     })
@@ -69,11 +68,6 @@ const Trip = props => {
   useEffect(() => {
     setModalClose(true)
   }, [modal]);
-
-  // useEffect(() => {
-  //   console.log(currentIndex)
-  //   setModalContent(entryDisplay(currentIndex))
-  // }, [currentIndex])
 
   return (
     <Layout error={currentTrip.error}>
