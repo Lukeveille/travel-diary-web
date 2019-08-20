@@ -1,14 +1,16 @@
 export default utc => {
-  let utcObj = new Date(utc).toString().split(' ');
-  const dateString = `${utcObj[1]} ${utcObj[2]}, ${utcObj[3]}`,
+  const theDate = new Date(utc),
+  utcObj = theDate.toString().split(' '),
+  offset = theDate.getTimezoneOffset() / 60,
   
-  year = new Date(utc).getFullYear(),
+  time = utcObj[4]? utcObj[4].split(':') : '',
   month = new Date(utc).getMonth() + 1,
-  day = new Date(utc).getDate(),
-  dateInput = `${year}-${month < 10? '0' + month : month}-${day < 10? '0' + day : day}`,
+  hour = time[0] >= (24-offset)? parseInt(time[0])-(24-offset) : parseInt(time[0])+offset,
   
-  hour = new Date(utc).getHours(),
-  min = new Date(utc).getMinutes(),
-  timeDisplay = `${hour > 12? hour - 12 : hour}:${min < 10? '0' + min : min} ${hour > 12? 'p' : 'a'}m`;
-  return [dateString, dateInput, timeDisplay, `${hour < 10? '0' + hour : hour}:${min < 10? '0' + min : min}`];
+  dateString = `${utcObj[1]} ${utcObj[2]}, ${utcObj[3]}`,
+  dateInput = `${utcObj[3]}-${month < 10? '0' + month : month}-${utcObj[2]}`,
+  timeDisplay = `${hour === 0? 12 : hour > 12? hour - 12 : hour}:${time[1]} ${hour > 12? 'p' : 'a'}m`,
+  timeInput = `${hour < 10? '0' + hour : hour}:${time[1]}`;
+  
+  return [dateString, dateInput, timeDisplay, timeInput];
 };

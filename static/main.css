@@ -53,7 +53,8 @@ tr:hover td {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 1em;
-  min-width: 65vw
+  min-width: 65vw;
+  min-height: 200px;
 }
 .entry-date {
   padding: .3em 3em;

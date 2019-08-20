@@ -30,15 +30,14 @@ export default props => {
     );
   },
   changeEntryTime = event => {
-    // console.log(event.target.value)
-    console.log(props.state.entryTime)
-    console.log(props.state.entryTime)
     props.editState(
       {...props.state,
-        entryTime: convertUTC(fieldDisplay, dateString(props.state.entryTime)[3])
+        entryTime: convertUTC(
+          event.target.value[2] === ':'? fieldDisplay : event.target.value,
+          event.target.value[2] === ':'? event.target.value : timeDisplay
+        )
       }
-    )
-    // temp.time
+    );
   };
 
   useEffect(() => {
