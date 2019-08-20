@@ -31,11 +31,11 @@ export default props => {
     <div>
       <h1>{createEditField('title', 'Untitled')}</h1>
       <h3>{createEditField('entryTime')}</h3>
-      <p>{createEditField('message', 'No message', { textarea: true })}</p>
+      <p style={{ maxWidth: '40vw' }}>{createEditField('message', 'No message', { textarea: true })}</p>
       <GeoMap geotag={currentEntry.geotag} state={currentEntry} setState={setCurrentEntry} />
       <p>{createEditField('locationName', 'No name')}</p>
       <a
-        href={currentEntry.link? `http://${currentEntry.link}` : ''}
+        href={currentEntry.link? currentEntry.link.slice(0,4) === 'http'? currentEntry.link : `http://${currentEntry.link}` : ''}
         style={{cursor: 'pointer'}}
         target="_blank"
         onMouseEnter={event => {
@@ -52,6 +52,8 @@ export default props => {
         setModalContent={props.setModalContent}
         setModal={props.setModal}
         setModalClose={props.setModalClose}
+        setEntries={props.setEntries}
+        entries={props.entries}
         data={currentEntry}
         warning="This will also delete all media!"
         type="Entry"

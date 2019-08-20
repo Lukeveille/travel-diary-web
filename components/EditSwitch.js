@@ -25,10 +25,14 @@ export default props => {
         <h3>
         <a onClick={() => {
           props.setEditing(!props.editing);
-          console.log(props.data)
-          serverCall('PATCH', props.data, props.link).then(res => {
-            console.log(res)
-          }).catch(err => console.error(err))
+          let oldEntries = props.entries? [...props.entries] : '';
+          oldEntries.filter((entry, i) => {
+            if (entry.dataKey === props.data.dataKey) {
+              oldEntries[i] = props.data;
+            };
+          });
+          props.setEntries(oldEntries);
+          serverCall('PATCH', props.data, props.link).catch(err => console.error(err));
           setTemp(props.data);
         }}>Save</a>&nbsp;-&nbsp;
         <a onClick={() => {
@@ -42,7 +46,10 @@ export default props => {
           props.setModalClose(true);
         }}>Delete {props.type}</a>
       </div> :
-      <p><a onClick={() => { props.setEditing(!props.editing) }}>Edit</a></p>}
+      <p><a onClick={() => {
+        props.setEditing(!props.editing);
+        setTemp(props.data);
+      }}>Edit</a></p>}
     </div>
   );
 };

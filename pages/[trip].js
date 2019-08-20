@@ -34,6 +34,7 @@ const Trip = props => {
   [newEntry, setNewEntry] = useState(blankEntry),
   entryDisplay = index => <Entry
     entries={entries}
+    setEntries={setEntries}
     index={index}
     setCurrentIndex={setCurrentIndex}
     setModalContent={setModalContent}
@@ -46,9 +47,8 @@ const Trip = props => {
   />,
   submitNewEntry = event => {
     event.preventDefault();
-    console.log();
     serverCall('POST', {...newEntry, entryTime: convertUTC(newEntry.entryTime.date, newEntry.entryTime.time) }, currentTrip.dataKey)
-    .then(res => {
+    .then(() => {
       window.location.reload();
     })
   }
@@ -101,7 +101,7 @@ const Trip = props => {
               >
                 <td>{dateString(entry.entryTime)[0]}</td>
                 <td>{entry.title}</td>
-                <td>{entry.message}</td>
+                <td>{entry.message.length > 50? entry.message.slice(0, 50) + '...' : entry.message}</td>
                 <td>{entry.link}</td>
               </tr>
             )

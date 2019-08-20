@@ -11,8 +11,6 @@ export default props => {
       <button onClick={event => {
         event.preventDefault();
         navigator.geolocation.getCurrentPosition(position => {
-          console.log(position)
-          console.log(props)
           props.setState({
             ...props.state,
             geotag: {

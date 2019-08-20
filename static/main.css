@@ -53,7 +53,7 @@ tr:hover td {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 1em;
-  min-width: 65vw;
+  min-width: 40vw;
   min-height: 200px;
 }
 .entry-date {
@@ -136,7 +136,7 @@ h3 .glyphicon-pencil {
   background-color: #fff;
   border: 1px solid #666;
   display: inline-block;
-  margin-top: 15vh;
+  margin-top: 7vh;
   border-radius: 15px;
 }
 .modal-content {

@@ -63,6 +63,7 @@ export default props => {
       />
       <input
         autoFocus
+        maxlength={10}
         type={type}
         onKeyDown={keyEvent}
         onChange={props.attribute === 'entryTime'? changeEntryTime : inputType}
@@ -72,10 +73,14 @@ export default props => {
       <textarea
         autoFocus
         type={type}
+        cols={50}
+        rows={4}
         onKeyDown={keyEvent}
         onChange={inputType}
         value={fieldDisplay}
-        style={{display: props.on && edit && options.textarea? 'inline' : 'none'}}
+        style={{
+          display: props.on && edit && options.textarea? 'inline' : 'none',
+        }}
       />
       <span
         onClick={() => {
