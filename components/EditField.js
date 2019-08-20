@@ -63,7 +63,7 @@ export default props => {
       />
       <input
         autoFocus
-        maxlength={10}
+        maxLength={20}
         type={type}
         onKeyDown={keyEvent}
         onChange={props.attribute === 'entryTime'? changeEntryTime : inputType}

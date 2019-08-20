@@ -38,6 +38,7 @@ const TripForm = props => {
       </div>
       <input
         placeholder="Title"
+        maxLength={20}
         type="text"
         className="form-control"
         value={props.newEntry.title}
@@ -62,6 +63,7 @@ const TripForm = props => {
       />
       <input
         placeholder="Name"
+        maxLength={40}
         className="form-control"
         value={props.newEntry.locationName}
         onChange={event => {
@@ -70,6 +72,7 @@ const TripForm = props => {
       />
       <input
         placeholder="Link"
+        maxLength={100}
         className="form-control"
         value={props.newEntry.link}
         onChange={event => {

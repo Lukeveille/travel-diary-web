@@ -25,8 +25,8 @@ export default props => {
         <h3>
         <a onClick={() => {
           props.setEditing(!props.editing);
-          let oldEntries = props.entries? [...props.entries] : '';
-          oldEntries.filter((entry, i) => {
+          let oldEntries = props.entries? [...props.entries] : [];
+          oldEntries.map((entry, i) => {
             if (entry.dataKey === props.data.dataKey) {
               oldEntries[i] = props.data;
             };
