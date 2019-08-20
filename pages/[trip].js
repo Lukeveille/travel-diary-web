@@ -96,7 +96,6 @@ const Trip = props => {
                   if (!editing) {
                     setCurrentIndex(i);
                     setEntrySwitch(!setEntry);
-                    // setModalClose(true);
                   }
                 }}
               >

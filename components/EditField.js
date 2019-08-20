@@ -20,17 +20,26 @@ export default props => {
     };
   },
   fieldDisplay = type === 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[1],
+  timeDisplay = props.attribute === 'entryTime'? dateString(props.state[props.attribute])[3] : '00:00',
   inputType = event => {
     props.editState(
       {...props.state,
-        [props.attribute]: type === 'text'? event.target.value : convertUTC(event.target.value)
+        [props.attribute]: type === 'text'? event.target.value :
+        convertUTC(event.target.value)
       }
     );
+  },
+  changeEntryTime = event => {
+    // console.log(event.target.value)
+    console.log(props.state.entryTime)
+    console.log(props.state.entryTime)
+    props.editState(
+      {...props.state,
+        entryTime: convertUTC(fieldDisplay, dateString(props.state.entryTime)[3])
+      }
+    )
+    // temp.time
   };
-
-  if (props.attribute === 'entryTime') {
-
-  }
 
   useEffect(() => {
     setEdit(false)
@@ -47,9 +56,17 @@ export default props => {
     >
       <input
         autoFocus
+        type='time'
+        onKeyDown={keyEvent}
+        onChange={changeEntryTime}
+        value={timeDisplay}
+        style={{display: props.on && edit && props.attribute === 'entryTime'? 'inline' : 'none'}}
+      />
+      <input
+        autoFocus
         type={type}
         onKeyDown={keyEvent}
-        onChange={inputType}
+        onChange={props.attribute === 'entryTime'? changeEntryTime : inputType}
         value={fieldDisplay}
         style={{display: props.on && edit && !options.textarea? 'inline' : 'none'}}
       />
@@ -72,8 +89,8 @@ export default props => {
         }}
       >
         {blank? props.blank :
-          props.attribute === 'entryTime'? props.state.entryTime.time :
-          type === 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
+        props.attribute === 'entryTime'? `${dateString(props.state.entryTime)[2]} ${dateString(props.state.entryTime)[0]}` :
+        type === 'text'? props.state[props.attribute] : dateString(props.state[props.attribute])[0]}
       </span>
       {props.on? <i
         style={{color: hover? '#444' : '#ddd'}}
