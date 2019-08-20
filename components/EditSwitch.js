@@ -25,7 +25,10 @@ export default props => {
         <h3>
         <a onClick={() => {
           props.setEditing(!props.editing);
-          serverCall('PATCH', props.data, props.link)
+          console.log(props.data)
+          serverCall('PATCH', props.data, props.link).then(res => {
+            console.log(res)
+          }).catch(err => console.error(err))
           setTemp(props.data);
         }}>Save</a>&nbsp;-&nbsp;
         <a onClick={() => {
